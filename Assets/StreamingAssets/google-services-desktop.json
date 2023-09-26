@@ -1,0 +1,84 @@
+{
+  "project_info": {
+    "project_number": "7339183805",
+    "firebase_url": "https://goalkeeper-hyperactive-default-rtdb.firebaseio.com",
+    "project_id": "goalkeeper-hyperactive",
+    "storage_bucket": "goalkeeper-hyperactive.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:7339183805:android:8145e47e75e96f3b4f31d4",
+        "android_client_info": {
+          "package_name": "com.HyperActive.GoalKeeper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "7339183805-vpps6qqegp3lcihbvsunvinekeno7jc5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2vRcrxC-1pCkkxwTb_kETxJtSk92CyoY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "7339183805-vpps6qqegp3lcihbvsunvinekeno7jc5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "7339183805-35r1ms6b77oa6mimbq1s78t1b0oo1td6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "gasd"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-5645274750661606~4117354777"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:7339183805:android:9a8dfbd9cf7b7a244f31d4",
+        "android_client_info": {
+          "package_name": "com.HyperactiveGames.GoalKeeper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "7339183805-vpps6qqegp3lcihbvsunvinekeno7jc5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2vRcrxC-1pCkkxwTb_kETxJtSk92CyoY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "7339183805-vpps6qqegp3lcihbvsunvinekeno7jc5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "7339183805-35r1ms6b77oa6mimbq1s78t1b0oo1td6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "gasd"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
