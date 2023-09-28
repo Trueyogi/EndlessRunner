@@ -17,10 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: ecca703ac90113346a3923a505db5daa
   m_SerializeEntries:
-  - m_GUID: 35231d694d6c0ae4da2714b8969719cd
-    m_Address: ObstacleRat
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: 39c9e0746ca1a4b4995befba3266d4f6
     m_Address: ObstacleRoadworksCone
     m_ReadOnly: 0

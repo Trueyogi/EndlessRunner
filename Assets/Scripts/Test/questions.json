@@ -1,0 +1,104 @@
+﻿{
+  "Questions": [
+    {
+      "QuestionText": "Türkiye'nin başkenti nedir?",
+      "Options": ["Ankara", "İstanbul", "İzmir"],
+      "correctAnswerIndex": 0
+    },
+    {
+      "QuestionText": "Güneş sisteminde kaç gezegen bulunur?",
+      "Options": ["8 gezegen", "9 gezegen", "7 gezegen"],
+      "correctAnswerIndex": 0
+    },
+    {
+      "QuestionText": "Hangi ülke piramitleriyle ünlüdür?",
+      "Options": ["Fas", "Mısır", "Cezayir"],
+      "correctAnswerIndex": 1
+    },
+    {
+      "QuestionText": "Türkiye'nin en uzun nehrinin adı nedir?",
+      "Options": ["Kızılırmak Nehri", "Yeşilırmak Nehri", "Asi Nehri"],
+      "correctAnswerIndex": 0
+    },
+    {
+      "QuestionText": "Türkiye'nin en yüksek dağı hangisidir?",
+      "Options": ["Nemrut Dağı", "Kaçkar Dağı", "Ağrı Dağı"],
+      "correctAnswerIndex": 2
+    },
+    {
+      "QuestionText": "Bir yıl kaç aydan oluşur?",
+      "Options": ["13", "12", "11"],
+      "correctAnswerIndex": 1
+    },
+    {
+      "QuestionText": "Dünyadaki en yüksek dağın adı nedir?",
+      "Options": ["Everest", "Kilimanjaro", "Vezüv"],
+      "correctAnswerIndex": 0
+    },
+    {
+      "QuestionText": "Hangi gezegenin halkaları vardır?",
+      "Options": ["Uranus", "Neptün", "Satürn"],
+      "correctAnswerIndex": 2
+    },
+    {
+      "QuestionText": "Dünya'nın döndüğü eksen şekli nasıldır?",
+      "Options": ["Eğik", "Düz", "Dalgalı"],
+      "correctAnswerIndex": 0
+    },
+    {
+      "QuestionText": "İnsanın ilk evcil hayvanı olarak kabul edilen tür hangisidir?",
+      "Options": ["Kedi", "Köpek", "Maymun"],
+      "correctAnswerIndex": 1
+    },
+    {
+      "QuestionText": "Ay'a ilk ayak basan insanın adı nedir?",
+      "Options": ["Neil Armstrong", "Yuri Gagarin", "Buzz Aldrin"],
+      "correctAnswerIndex": 0
+    },
+    {
+      "QuestionText": "Hangi hayvan “Ormanın Kralı” olarak da bilinir?",
+      "Options": ["Kaplan", "Aslan", "Fil"],
+      "correctAnswerIndex": 1
+    },
+    {
+      "QuestionText": "“Kızıl Gezegen” olarak da bilinen gezegen hangisidir?",
+      "Options": ["Venüs", "Mars", "Jüpiter"],
+      "correctAnswerIndex": 1
+    },
+    {
+      "QuestionText": "Dünya’nın en büyük okyanusu hangisidir?",
+      "Options": ["Atlas", "Pasifik", "Hint"],
+      "correctAnswerIndex": 1
+    },
+    {
+      "QuestionText": "Hangi gezegen güneş sisteminde en büyük gezegen olarak kabul edilir?",
+      "Options": ["Jüpiter", "Neptün", "Merkür"],
+      "correctAnswerIndex": 0
+    },
+    {
+      "QuestionText": "Türkiye'nin en büyük gölü hangisidir?",
+      "Options": ["Tuz Gölü", "Sapanca Gölü", "Van Gölü"],
+      "correctAnswerIndex": 2
+    },
+    {
+      "QuestionText": "Bir yıl kaç mevsimden oluşur?",
+      "Options": ["Dört", "Beş", "Üç"],
+      "correctAnswerIndex": 0
+    },
+    {
+      "QuestionText": "Hangi renk trafik ışığında durmayı gösterir?",
+      "Options": ["Kırmızı", "Sarı", "Yeşil"],
+      "correctAnswerIndex": 0
+    },
+    {
+      "QuestionText": "Türkiye'nin en büyük adası hangisidir?",
+      "Options": ["Bozcaada", "Büyükada","Gökçeada"],
+      "correctAnswerIndex": 2
+    },
+    {
+      "QuestionText": "İlk yazılı alfabe sistemi hangi medeniyet tarafından geliştirilmiştir?",
+      "Options": ["Lidyalılar", "Sümerler", "Babiller"],
+      "correctAnswerIndex": 1
+    }
+  ]
+}

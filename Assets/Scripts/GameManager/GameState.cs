@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using Test;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
@@ -21,8 +22,9 @@ public class GameState : AState
 	static int s_DeadHash = Animator.StringToHash("Dead");
 
     public Canvas canvas;
+    public RectTransform questionMenu;
     public TrackManager trackManager;
-
+    public TestManager testManager;
 	public AudioClip gameTheme;
 
     [Header("UI")]
@@ -57,7 +59,7 @@ public class GameState : AState
     public AdvertisingNetwork adsNetwork = AdvertisingNetwork.UnityAds;
 #endif
     public bool adsRewarded = true;
-
+    private bool canShowNewQuestion = true;
     protected bool m_Finished;
     protected float m_TimeSinceStart;
     protected List<PowerupIcon> m_PowerupIcons = new List<PowerupIcon>();
@@ -104,7 +106,6 @@ public class GameState : AState
     public override void Exit(AState to)
     {
         canvas.gameObject.SetActive(false);
-
         ClearPowerup();
     }
 
@@ -224,10 +225,22 @@ public class GameState : AState
 
             UpdateUI();
 
+            if (trackManager.characterController.coins % 21 == 20 && canShowNewQuestion)
+            {
+                Pause(false);
+                questionMenu.gameObject.SetActive(true);
+                canShowNewQuestion = false;
+                StartCoroutine(ShowAndHideQuestion());
+            }
             currentModifier.OnRunTick(this);
         }
     }
-
+    private IEnumerator ShowAndHideQuestion()
+    {
+        yield return StartCoroutine(testManager.ShowNewQuestion());
+        questionMenu.gameObject.SetActive(false);
+        canShowNewQuestion = true;
+    }
 	void OnApplicationPause(bool pauseStatus)
 	{
 		if (pauseStatus) Pause();

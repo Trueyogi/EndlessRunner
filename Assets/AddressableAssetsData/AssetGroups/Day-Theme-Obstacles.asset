@@ -37,10 +37,6 @@ MonoBehaviour:
     m_Address: ObstacleWheelyBin
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: ec0335ae7fd65b74898920e51d042abd
-    m_Address: ObstacleRat
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: f0070c0f7d7cdcb4eb7176be4a87caa9
     m_Address: ObstacleRoadworksCone
     m_ReadOnly: 0

@@ -121,7 +121,7 @@ public class TrackManager : MonoBehaviour
     const float k_FloatingOriginThreshold = 10000f;
 
     protected const float k_CountdownToStartLength = 5f;
-    protected const float k_CountdownSpeed = 1.5f;
+    protected const float k_CountdownSpeed = 1.1f;
     protected const float k_StartingSegmentDistance = 2f;
     protected const int k_StartingSafeSegments = 2;
     protected const int k_StartingCoinPoolSize = 256;
