@@ -2,7 +2,6 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using Test;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
@@ -59,7 +58,8 @@ public class GameState : AState
     public AdvertisingNetwork adsNetwork = AdvertisingNetwork.UnityAds;
 #endif
     public bool adsRewarded = true;
-    private bool canShowNewQuestion = true;
+    public bool canShowNewQuestion = true;
+    public bool canAnswering = true;
     protected bool m_Finished;
     protected float m_TimeSinceStart;
     protected List<PowerupIcon> m_PowerupIcons = new List<PowerupIcon>();
@@ -224,24 +224,32 @@ public class GameState : AState
             }
 
             UpdateUI();
-
-            if (trackManager.characterController.coins % 21 == 20 && canShowNewQuestion)
+            int coinCount = trackManager.characterController.coins;
+            if (coinCount % 21 == 20)
             {
-                Pause(false);
-                questionMenu.gameObject.SetActive(true);
-                canShowNewQuestion = false;
-                StartCoroutine(ShowAndHideQuestion());
+                if (canShowNewQuestion)
+                {
+                    Pause(false);
+                    questionMenu.gameObject.SetActive(true);
+                    canAnswering = true;
+                    canShowNewQuestion = false;
+                    StartCoroutine(testManager.ShowNewQuestion());
+                }
+                if (canAnswering)
+                {
+                    int answer = MLOutputController.instance.checkAnswer();
+                    if(answer != -1)
+                    {
+                        TestManager.instance.AnsweredQuestion(answer);
+                    }
+                }
             }
+            if (coinCount % 22 == 21) canShowNewQuestion = true;
             currentModifier.OnRunTick(this);
         }
     }
-    private IEnumerator ShowAndHideQuestion()
-    {
-        yield return StartCoroutine(testManager.ShowNewQuestion());
-        questionMenu.gameObject.SetActive(false);
-        canShowNewQuestion = true;
-    }
-	void OnApplicationPause(bool pauseStatus)
+
+    void OnApplicationPause(bool pauseStatus)
 	{
 		if (pauseStatus) Pause();
 	}

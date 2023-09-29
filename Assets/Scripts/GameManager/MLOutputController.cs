@@ -13,40 +13,41 @@ public class MLOutputController : MonoBehaviour
     public GameObject correctPoseSign;
     public LoadoutState loadoutState;
     public CharacterInputController characterInputController;
-    [HideInInspector] public static MLOutputController instance;
     [HideInInspector] public bool isStale;
+    [HideInInspector] public static MLOutputController instance;
     [HideInInspector] public IList<NormalizedLandmark> currentTarget;
 
     private Camera mainCamera;
     private Vector3 screenBottomLeft;
     private Vector4 screenTopRight;
-    private float canvasDistance;
+    private float width;
+    private float height;
+    private float lowerBound;
+    private float upperBound;
     private float leftRestrictive;
     private float rightRestrictive;
     private float bottomRestrictive;
     private float upperRestrictive;
     private int PoseCheckerCorrectFrame;
-    private int MidY = 0;
     private bool isStarting;
     private int x_pos_index = 1;
     private int y_pos_index = 1;
 
-    public GameObject pauseScreen;
+    public GameObject poseWarning;
     public bool isUserInScreen;
 
     private void Awake()
     {
         instance = this;
         mainCamera = Camera.main;
-        canvasDistance = canvas.planeDistance;
         isUserInScreen = true;
     }
 
     private void Start()
     {
-        /*screenTopRight = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, canvas.planeDistance));
-        screenBottomLeft = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, canvas.planeDistance));*/
         MLOutputFilterer.Initialize();
+        height = mainCamera.orthographicSize * 2.0f;
+        width = height * (Screen.width / (float)Screen.height);
     }
 
     protected virtual void LateUpdate()
@@ -64,9 +65,9 @@ public class MLOutputController : MonoBehaviour
             {
                 if (!isUserInScreen)
                 {
-                    GameState.instance.Pause();
-                    pauseScreen.SetActive(false);
+                    poseWarning.SetActive(false);
                     isUserInScreen = true;
+                    GameState.instance.Resume();
                 }
                 processOutputsForGame();
             }
@@ -74,8 +75,8 @@ public class MLOutputController : MonoBehaviour
             {
                 if (isUserInScreen)
                 {
-                    GameState.instance.Pause();
-                    pauseScreen.SetActive(true);
+                    GameState.instance.Pause(false);
+                    poseWarning.SetActive(true);
                     isUserInScreen = false;
                 }
             }
@@ -87,9 +88,8 @@ public class MLOutputController : MonoBehaviour
     private void processOutputsForGame()
     {
         string horizontal_position = checkHorizontal();
-        string vertical_position = checkVertical(MidY);
-        Debug.Log("horizontal_position" +horizontal_position);
-        Debug.Log("vertical_position" +vertical_position);
+        string vertical_position = checkVertical();
+        
         if ((horizontal_position=="Left" && x_pos_index!=0) || (horizontal_position=="Center" && x_pos_index==2))
         {
             //RIGHT MOVE
@@ -121,37 +121,41 @@ public class MLOutputController : MonoBehaviour
             y_pos_index = 1;
         }
     }
+
+    public int checkAnswer()
+    {
+        string position = checkHorizontal();
+        if (position == "Left") return 0;
+        if (position == "Center") return 1;
+        if (position == "Right") return 2;
+        return -1;
+    }
     private String checkHorizontal()
     {
-        int width = 0;
-        var left_x = mainCamera.ViewportToWorldPoint(new Vector3(currentTarget[11].X, currentTarget[11].Y, canvasDistance))[0];
-        var right_x = mainCamera.ViewportToWorldPoint(new Vector3(currentTarget[12].X, currentTarget[12].Y, canvasDistance))[0];
+        var centreX_of_gravity = (currentTarget[11].X  + currentTarget[12].X  + currentTarget[23].X  + currentTarget[24].X )*width /4;
         string horizontal_position = "";
         
-        if (right_x <= width/2 && left_x <= width/2)
+        if (centreX_of_gravity <= width/3)
             horizontal_position = "Left";
-        
-        else if (right_x >= width/2 && left_x >= width/2)
-            horizontal_position = "Right";
-        
-        else if (right_x >= width/2 && left_x <= width/2)
+        else if (centreX_of_gravity <= 2*width/3)
             horizontal_position = "Center";
+        else if (centreX_of_gravity <= width)
+            horizontal_position = "Right";
         
         return horizontal_position;
     }
-    private String checkVertical(int MidY)
+    private String checkVertical()
     {
-        var left_y = mainCamera.ViewportToWorldPoint(new Vector3(currentTarget[11].X, currentTarget[11].Y, canvasDistance))[1];
-        var right_y = mainCamera.ViewportToWorldPoint(new Vector3(currentTarget[12].X, currentTarget[12].Y, canvasDistance))[1];
-        double actualMidY = Mathf.Abs((float)(right_y + left_y) / 2);
+        var centreY_of_gravity = (currentTarget[11].Y  + currentTarget[12].Y + currentTarget[23].Y  + currentTarget[24].Y )*height /4;
         string vertical_position = "";
-
-        int lowerBound = MidY - 5;
-        int upperBound = MidY + 10;
-
-        if (actualMidY < lowerBound)
+        /*
+        Debug.Log("lowerBound " + lowerBound);
+        Debug.Log("upperBound " + upperBound);
+        Debug.Log("centreY_of_gravity " + centreY_of_gravity);
+        */
+        if (centreY_of_gravity >= upperBound)
             vertical_position = "Jumping";
-        else if (actualMidY > upperBound)
+        else if (centreY_of_gravity <= lowerBound)
             vertical_position = "Crouching";
         else
             vertical_position = "Standing";
@@ -161,12 +165,15 @@ public class MLOutputController : MonoBehaviour
 
     private bool CheckMinPointsInScreen()
     {
-        var points = 0;
-        for (var i = 11; i < 15; i++)
-            if (currentTarget[i].Visibility >= 0.80f)
-                points += 1;
-
-        return points == 4;
+        try
+        {
+            var visibility_score = currentTarget[11].Visibility + currentTarget[12].Visibility + currentTarget[23].Visibility + currentTarget[24].Visibility;
+            return visibility_score >= 2.5f;
+        }
+        catch(Exception ex)
+        {
+            return false;
+        }
     } 
     
     private void BeforeGamePoseChecker()
@@ -197,12 +204,10 @@ public class MLOutputController : MonoBehaviour
         if (isStarting) 
             return;
         
+        lowerBound = (currentTarget[23].Y+currentTarget[24].Y)*height*1.2f/2;
+        upperBound = (currentTarget[11].Y+currentTarget[12].Y)*height*0.70f/2;
         correctPoseSign.SetActive(true);
         loadoutState.Invoke("StartGamePlay", 1.5f);
-        
-        var left_y = mainCamera.ViewportToWorldPoint(new Vector3(currentTarget[11].X, currentTarget[11].Y, canvasDistance))[1];
-        var right_y = mainCamera.ViewportToWorldPoint(new Vector3(currentTarget[12].X, currentTarget[12].Y, canvasDistance))[1];
-        MidY = (int)Mathf.Abs((float)(right_y + left_y) / 3);
     }
 
     private IEnumerator WaitSecs(float time)

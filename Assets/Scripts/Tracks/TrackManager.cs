@@ -40,9 +40,9 @@ public class TrackManager : MonoBehaviour
 
     [Header("Character & Movements")]
     public CharacterInputController characterController;
-    public float minSpeed = 5.0f;
-    public float maxSpeed = 10.0f;
-    public int speedStep = 4;
+    public float minSpeed = 3.0f;
+    public float maxSpeed = 5.0f;
+    public int speedStep = 2;
     public float laneOffset = 1.0f;
 
     public bool invincible = false;
