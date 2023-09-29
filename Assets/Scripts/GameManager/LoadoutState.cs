@@ -400,8 +400,8 @@ public class LoadoutState : AState
 
     public void StartGame()
     {
-	    StartGamePlay();
-	    //Invoke(nameof(Invoke_AISync), .4f);
+	    //StartGamePlay();
+	    Invoke(nameof(Invoke_AISync), .4f);
     }
     public void StartGamePlay()
     {
