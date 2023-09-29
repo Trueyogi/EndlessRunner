@@ -14,6 +14,7 @@ public class MLOutputController : MonoBehaviour
     public LoadoutState loadoutState;
     public CharacterInputController characterInputController;
     [HideInInspector] public bool isStale;
+    [HideInInspector] public bool canGameStart;
     [HideInInspector] public static MLOutputController instance;
     [HideInInspector] public IList<NormalizedLandmark> currentTarget;
 
@@ -46,6 +47,7 @@ public class MLOutputController : MonoBehaviour
     private void Start()
     {
         MLOutputFilterer.Initialize();
+        canGameStart = true;
         height = mainCamera.orthographicSize * 2.0f;
         width = height * (Screen.width / (float)Screen.height);
     }
@@ -53,7 +55,7 @@ public class MLOutputController : MonoBehaviour
     protected virtual void LateUpdate()
     {
         if (currentTarget == null) return;
-        if (isStale && MLModeController.instance.Get() == MLModelModes.GamePlay)
+        if (isStale && MLModeController.instance.Get() == MLModelModes.GamePlay && canGameStart)
         {
             if (correctPoseSign.activeSelf)
             {
@@ -132,6 +134,7 @@ public class MLOutputController : MonoBehaviour
     }
     private String checkHorizontal()
     {
+        if (currentTarget.Count < 4) return "";
         var centreX_of_gravity = (currentTarget[11].X  + currentTarget[12].X  + currentTarget[23].X  + currentTarget[24].X )*width /4;
         string horizontal_position = "";
         
@@ -146,6 +149,7 @@ public class MLOutputController : MonoBehaviour
     }
     private String checkVertical()
     {
+        if (currentTarget.Count < 4) return "";
         var centreY_of_gravity = (currentTarget[11].Y  + currentTarget[12].Y + currentTarget[23].Y  + currentTarget[24].Y )*height /4;
         string vertical_position = "";
         /*
@@ -168,7 +172,7 @@ public class MLOutputController : MonoBehaviour
         try
         {
             var visibility_score = currentTarget[11].Visibility + currentTarget[12].Visibility + currentTarget[23].Visibility + currentTarget[24].Visibility;
-            return visibility_score >= 2.5f;
+            return visibility_score >= 2.4f;
         }
         catch(Exception ex)
         {
@@ -204,8 +208,8 @@ public class MLOutputController : MonoBehaviour
         if (isStarting) 
             return;
         
-        lowerBound = (currentTarget[23].Y+currentTarget[24].Y)*height*1.2f/2;
-        upperBound = (currentTarget[11].Y+currentTarget[12].Y)*height*0.70f/2;
+        lowerBound = (currentTarget[23].Y+currentTarget[24].Y)*height*1.4f/2;
+        upperBound = (currentTarget[11].Y+currentTarget[12].Y)*height*0.6f/2;
         correctPoseSign.SetActive(true);
         loadoutState.Invoke("StartGamePlay", 1.5f);
     }

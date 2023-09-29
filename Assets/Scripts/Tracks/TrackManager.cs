@@ -40,9 +40,9 @@ public class TrackManager : MonoBehaviour
 
     [Header("Character & Movements")]
     public CharacterInputController characterController;
-    public float minSpeed = 3.0f;
-    public float maxSpeed = 5.0f;
-    public int speedStep = 2;
+    public float minSpeed = 2.0f;
+    public float maxSpeed = 3.0f;
+    public int speedStep = 1;
     public float laneOffset = 1.0f;
 
     public bool invincible = false;
@@ -127,7 +127,7 @@ public class TrackManager : MonoBehaviour
     protected const int k_StartingCoinPoolSize = 256;
     protected const int k_DesiredSegmentCount = 10;
     protected const float k_SegmentRemovalDistance = -30f;
-    protected const float k_Acceleration = 0.2f;
+    protected const float k_Acceleration = 0.1f;
     
     protected void Awake()
     {

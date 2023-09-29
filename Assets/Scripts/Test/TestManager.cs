@@ -12,27 +12,31 @@ public class TestManager : MonoBehaviour
     private QuestionList questionList;
     private List<int> learningQuestionList = new List<int>();
     private int currentQuestionIndex = -1;
-    private float countDownTime = 10f;
-    private int selectedOption;
+    private int selectedOption=-1;
+    private float countDownTime;
+    public GameObject QuestionMenu;
+    public TextAsset jsonFile;
     public Text countDownText;
     public Text questionText;
     public Text[] options;
     public Button[] buttonOptions;
     public static TestManager instance;
+
     private void Awake()
     {
         instance = this; 
-        string jsonPath = Application.dataPath + "/Scripts/Test/questions.json";
-        questionList = JsonUtility.FromJson<QuestionList>(File.ReadAllText(jsonPath));
-        ResetLearningList();
     }
-    
-    public void Start(){
-        countDownText.gameObject.SetActive(true);
+
+    private void OnEnable()
+    {
+        questionList = JsonUtility.FromJson<QuestionList>(jsonFile.text);
+        ResetLearningList();
     }
     public IEnumerator ShowNewQuestion()
     {
+        countDownTime = 10f;
         int randomQuestionIndex = -1;
+        Debug.Log(questionList.Questions.Count);
         randomQuestionIndex = Random.Range(0, questionList.Questions.Count);
         currentQuestionIndex = randomQuestionIndex;
         Question question = questionList.Questions[currentQuestionIndex];
@@ -41,7 +45,7 @@ public class TestManager : MonoBehaviour
         options[0].text = question.Options[0];
         options[1].text = question.Options[1];
         options[2].text = question.Options[2];
-        countDownTime = 10f;
+        QuestionMenu.gameObject.SetActive(true);
         
         while (true)
         {
@@ -61,23 +65,29 @@ public class TestManager : MonoBehaviour
 
     public void AnsweredQuestion(int selectIndex)
     {
-        SelectButtonUI(selectIndex);
-        selectedOption = selectIndex;
+        if (selectedOption != selectIndex)
+        {
+            SelectButtonUI(selectIndex);
+            DeselectButtonUI(selectedOption);
+            selectedOption = selectIndex;
+        }
     }
     public IEnumerator ShowAnswer(int selectIndex)
     {
-        Button currentSelectedButton = buttonOptions[selectIndex];
         int correctAnswerIndex = questionList.Questions[currentQuestionIndex].correctAnswerIndex;
         buttonOptions[correctAnswerIndex].GetComponent<Image>().color = Color.green;
-        
-        if (selectIndex == correctAnswerIndex)
-            learningQuestionList.Remove(currentQuestionIndex);
-        else
-            currentSelectedButton.GetComponent<Image>().color = Color.red;
+
+        if (selectIndex != -1)
+        {
+            Button currentSelectedButton = buttonOptions[selectIndex];
+            if (selectIndex == correctAnswerIndex)
+                learningQuestionList.Remove(currentQuestionIndex);
+            else
+                currentSelectedButton.GetComponent<Image>().color = Color.red;
+        }
         
         if (learningQuestionList.Count == 0)
             ResetLearningList();
-        
         GameState.instance.canAnswering = false;
         countDownTime = 5f;
         while (true)
@@ -89,7 +99,8 @@ public class TestManager : MonoBehaviour
             }
             else
             {
-                countDownText.gameObject.SetActive(false);
+                DeselectAllButtonUI();
+                QuestionMenu.gameObject.SetActive(false);
                 GameState.instance.questionMenu.gameObject.SetActive(false);
                 GameState.instance.Resume();
                 break;
@@ -104,20 +115,26 @@ public class TestManager : MonoBehaviour
 
     private void SelectButtonUI(int selectedIndex)
     {
-        for (int i = 0; i < buttonOptions.Length; i++)
+        Button currentSelectedButton = buttonOptions[selectedIndex];
+        Text currentSelectedButtonText = options[selectedIndex];
+        currentSelectedButton.GetComponent<Image>().color = Color.yellow;
+        currentSelectedButtonText.GetComponent<Text>().color = Color.white;
+    }
+
+    private void DeselectButtonUI(int selectedIndex)
+    {
+        if (selectedIndex != -1)
         {
-            Button currentSelectedButton = buttonOptions[i];
-            Text currentSelectedButtonText = options[i];
-            if (i == selectedIndex)
-            {
-                currentSelectedButton.GetComponent<Image>().color = Color.yellow;
-                currentSelectedButtonText.GetComponent<Text>().color = Color.white;
-            }
-            else
-            {
-                currentSelectedButton.GetComponent<Image>().color = Color.white;
-                currentSelectedButtonText.GetComponent<Text>().color = Color.gray;
-            }
+            Button preSelectedButton = buttonOptions[selectedIndex];
+            Text preSelectedButtonText = options[selectedIndex];
+            preSelectedButton.GetComponent<Image>().color = Color.white;
+            preSelectedButtonText.GetComponent<Text>().color = Color.black;
         }
+    }
+
+    private void DeselectAllButtonUI()
+    {
+        for (int i = 0; i < buttonOptions.Length; i++)
+            DeselectButtonUI(i);
     }
 }

@@ -59,7 +59,7 @@ public class GameState : AState
 #endif
     public bool adsRewarded = true;
     public bool canShowNewQuestion = true;
-    public bool canAnswering = true;
+    public bool canAnswering;
     protected bool m_Finished;
     protected float m_TimeSinceStart;
     protected List<PowerupIcon> m_PowerupIcons = new List<PowerupIcon>();
@@ -116,7 +116,8 @@ public class GameState : AState
         wholeUI.gameObject.SetActive(true);
         pauseButton.gameObject.SetActive(true);
         gameOverPopup.SetActive(false);
-
+        MLOutputController.instance.canGameStart = true;
+        
         if (!trackManager.isRerun)
         {
             m_TimeSinceStart = 0;
@@ -230,11 +231,12 @@ public class GameState : AState
                 if (canShowNewQuestion)
                 {
                     Pause(false);
-                    questionMenu.gameObject.SetActive(true);
                     canAnswering = true;
                     canShowNewQuestion = false;
                     StartCoroutine(testManager.ShowNewQuestion());
+                    questionMenu.gameObject.SetActive(true);
                 }
+
                 if (canAnswering)
                 {
                     int answer = MLOutputController.instance.checkAnswer();
@@ -390,6 +392,7 @@ public class GameState : AState
 
     public void GameOver()
     {
+        MLOutputController.instance.canGameStart = false;
         manager.SwitchState("GameOver");
     }
 
