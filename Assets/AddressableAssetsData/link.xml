@@ -1,7 +1,6 @@
 <linker>
   <assembly fullname="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
     <type fullname="AdsForMission" preserve="all" />
-    <type fullname="AllLaneObstacle" preserve="all" />
     <type fullname="AssignOutputChannel" preserve="all" />
     <type fullname="Character" preserve="all" />
     <type fullname="CharacterAccessories" preserve="all" />

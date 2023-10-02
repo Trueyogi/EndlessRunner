@@ -136,14 +136,17 @@ namespace Mediapipe.Unity
                 availableSources = WebCamTexture.devices;
                 if (availableSources != null && availableSources.Length > 0)
                 {
-                    //webCamDevice = availableSources[0];
-                    foreach (var camDevice in availableSources)
+                    // Android vs iOS conditional running
+                    // For Android
+                    webCamDevice = availableSources[2];
+                    // For Android
+                    /*foreach (var camDevice in availableSources)
                     {
                         if (camDevice.isFrontFacing)
                         {
                             webCamDevice = camDevice;
                         }
-                    }
+                    }*/
                 }
                 _IsPermitted = true;
                 yield return new WaitForEndOfFrame();

@@ -90,7 +90,7 @@ public class MLOutputController : MonoBehaviour
     private void processOutputsForGame()
     {
         string horizontal_position = checkHorizontal();
-        string vertical_position = checkVertical();
+        // string vertical_position = checkVertical();
         
         if ((horizontal_position=="Left" && x_pos_index!=0) || (horizontal_position=="Center" && x_pos_index==2))
         {
@@ -104,7 +104,7 @@ public class MLOutputController : MonoBehaviour
             characterInputController.ChangeLane(1);
             x_pos_index += 1;
         }
-        
+        /*
         if (vertical_position == "Jumping" && y_pos_index == 1)
         {
             //UP MOVE
@@ -121,7 +121,7 @@ public class MLOutputController : MonoBehaviour
         else if (vertical_position == "Standing" && y_pos_index != 1)
         {
             y_pos_index = 1;
-        }
+        }*/
     }
 
     public int checkAnswer()
