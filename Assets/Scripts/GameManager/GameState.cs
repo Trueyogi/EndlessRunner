@@ -226,7 +226,7 @@ public class GameState : AState
 
             UpdateUI();
             int coinCount = trackManager.characterController.coins;
-            if (coinCount % 21 == 20)
+            if (coinCount % 101 == 100)
             {
                 if (canShowNewQuestion)
                 {
@@ -246,7 +246,7 @@ public class GameState : AState
                     }
                 }
             }
-            if (coinCount % 22 == 21) canShowNewQuestion = true;
+            if (coinCount % 102 == 101) canShowNewQuestion = true;
             currentModifier.OnRunTick(this);
         }
     }

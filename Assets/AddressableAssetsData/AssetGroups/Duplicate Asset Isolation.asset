@@ -77,10 +77,6 @@ MonoBehaviour:
     m_Address: Assets/Models/Daytime/Pipes.fbx
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 30ef3480996caf140bcd7afeae88ea89
-    m_Address: Assets/Models/Daytime/RoadWorksBarrier01.fbx
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: 3940fade9e1ac7e44b7df894133991ea
     m_Address: Assets/Models/Daytime/House.fbx
     m_ReadOnly: 0
@@ -91,10 +87,6 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: 3b9892fba65295a4b839fa96a5b7b0f8
     m_Address: Assets/Models/Daytime/Cloud02.fbx
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 3bbb4725b7e107143a0d7eeaa52be855
-    m_Address: Assets/Animation/ObstacleRoadWorksBarrier_Death.fbx
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 3dc78b81a4d12bd42bd2c32e62d95511
@@ -241,10 +233,6 @@ MonoBehaviour:
     m_Address: Assets/Models/Daytime/Road01.fbx
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 9b635fbb467c2e84f9b8b0d2cc7a19fd
-    m_Address: Assets/Animation/ObstacleRoadWorksBarrierLow_Death.fbx
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: 9baf6e72cc9bd7b4293830149cc335fe
     m_Address: Assets/Textures/WashingLineClothesAlbedo.png
     m_ReadOnly: 0
@@ -307,10 +295,6 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: bb67dd508c3b85b46a088b3894514f6e
     m_Address: Assets/Textures/Graffiti/Graffiti09.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: bbccc718107e16e4d9e070aa75df5218
-    m_Address: Assets/Animation/ObstacleRoadWorksBarrierHigh_Death.fbx
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: bdab1ed0d99f3854c867ed4cedd1919e
