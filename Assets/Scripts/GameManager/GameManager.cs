@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
 
     protected void OnEnable()
     {
+        // Disable screen dimming
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        
         PlayerData.Create();
 
         s_Instance = this;

@@ -21,6 +21,10 @@ MonoBehaviour:
     m_Address: ObstacleBin
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 82eb370d70e50344cb6eeb919a1429b8
+    m_Address: ObstacleRoadworksBarrier
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: d9056217b765e1b4893238b9e7ebddbc
     m_Address: ObstacleWheelyBin
     m_ReadOnly: 0
