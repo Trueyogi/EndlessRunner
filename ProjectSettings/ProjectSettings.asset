@@ -162,10 +162,10 @@ PlayerSettings:
     tvOS: 
   buildNumber:
     Standalone: 0
-    iPhone: 1
+    iPhone: 2
     tvOS: 0
   overrideDefaultApplicationIdentifier: 1
-  AndroidBundleVersionCode: 1
+  AndroidBundleVersionCode: 2
   AndroidMinSdkVersion: 22
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
@@ -229,7 +229,7 @@ PlayerSettings:
   metalAPIValidation: 1
   iOSRenderExtraFrameOnPause: 1
   iosCopyPluginsCodeInsteadOfSymlink: 0
-  appleDeveloperTeamID: RGJJNHQZ2L
+  appleDeveloperTeamID: 
   iOSManualSigningProvisioningProfileID: 54256bdb-ab72-4bff-9fea-cfd64081e1df
   tvOSManualSigningProvisioningProfileID: 
   iOSManualSigningProvisioningProfileType: 0
@@ -609,9 +609,10 @@ PlayerSettings:
   enableInternalProfiler: 0
   logObjCUncaughtExceptions: 1
   enableCrashReportAPI: 0
-  cameraUsageDescription: Test
-  locationUsageDescription: Test
-  microphoneUsageDescription: Test
+  cameraUsageDescription: We need access to your camera to control the game character.
+  locationUsageDescription: We need access to your location to provide a personalized
+    experience.
+  microphoneUsageDescription: We need access to your microphone for voice commands.
   bluetoothUsageDescription: 
   switchNMETAOverride: 
   switchNetLibKey: 

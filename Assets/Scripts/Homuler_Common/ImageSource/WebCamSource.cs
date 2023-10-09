@@ -127,26 +127,29 @@ namespace Mediapipe.Unity
         public override bool isPlaying => webCamTexture != null && webCamTexture.isPlaying;
         private bool _isInitialized;
 
+        /*
         private IEnumerator Start()
         {
-            AndroidRuntimePermissions.Permission result =
-                AndroidRuntimePermissions.RequestPermission("android.permission.CAMERA");
+            AndroidRuntimePermissions.Permission result = AndroidRuntimePermissions.RequestPermission("android.permission.CAMERA");
             if (result == AndroidRuntimePermissions.Permission.Granted)
             {
                 availableSources = WebCamTexture.devices;
                 if (availableSources != null && availableSources.Length > 0)
                 {
                     // Android vs iOS conditional running
-                    // For Android
+                    // For iOS
+#if UNITY_IOS
                     webCamDevice = availableSources[2];
                     // For Android
-                    /*foreach (var camDevice in availableSources)
+#else
+                    foreach (var camDevice in availableSources)
                     {
                         if (camDevice.isFrontFacing)
                         {
                             webCamDevice = camDevice;
                         }
-                    }*/
+                    }
+#endif
                 }
                 _IsPermitted = true;
                 yield return new WaitForEndOfFrame();
@@ -157,6 +160,74 @@ namespace Mediapipe.Unity
             }
 
             _isInitialized = true;
+        }*/
+
+        private IEnumerator Start()
+        {
+        #if UNITY_IOS
+            // Request camera permission on iOS
+            yield return Application.RequestUserAuthorization(UserAuthorization.WebCam);
+
+            while (!Application.HasUserAuthorization(UserAuthorization.WebCam))
+            {
+                // Wait a frame and then check again
+                yield return null;
+            }
+
+            // Now you have permissions, initialize the camera on iOS
+            availableSources = WebCamTexture.devices;
+                if (availableSources != null && availableSources.Length > 0)
+                {
+                    bool frontFacingCameraFound = false;
+                    foreach (var camDevice in availableSources)
+                    {
+                        if (camDevice.isFrontFacing)
+                        {
+                            webCamDevice = camDevice;
+                            frontFacingCameraFound = true;
+                            break;  // Exit the loop once the front-facing camera is found
+                        }
+                    }
+                    /*
+                    if (!frontFacingCameraFound)
+                    {
+                        Debug.LogWarning("No front-facing camera found. Falling back to the default camera.");
+                        webCamDevice = availableSources[2];  // or choose an appropriate fallback device
+                    }
+                    */
+                }
+            /*if (availableSources != null && availableSources.Length > 0)
+            {
+                webCamDevice = availableSources[2];  // or choose an appropriate device
+            }*/
+            _IsPermitted = true;
+            _isInitialized = true;
+
+        #elif UNITY_ANDROID
+            // Your existing logic for Android
+            AndroidRuntimePermissions.Permission result = AndroidRuntimePermissions.RequestPermission("android.permission.CAMERA");
+            if (result == AndroidRuntimePermissions.Permission.Granted)
+            {
+                availableSources = WebCamTexture.devices;
+                if (availableSources != null && availableSources.Length > 0)
+                {
+                    foreach (var camDevice in availableSources)
+                    {
+                        if (camDevice.isFrontFacing)
+                        {
+                            webCamDevice = camDevice;
+                        }
+                    }
+                }
+                _IsPermitted = true;
+                yield return new WaitForEndOfFrame();
+            }
+            else
+            {
+                _IsPermitted = false;
+            }
+            _isInitialized = true;
+        #endif
         }
 
         public override void SelectSource(int sourceId)
