@@ -25,11 +25,10 @@ public class MLOutputController : MonoBehaviour
     private float height;
     private float lowerBound;
     private float upperBound;
-    private float leftRestrictive;
-    private float rightRestrictive;
-    private float bottomRestrictive;
-    private float upperRestrictive;
+    private float prev_upperboddy_pos;
+    private float prev_lowerboddy_pos;
     private int PoseCheckerCorrectFrame;
+    private int inference_counter = 0;
     private bool isStarting;
     private int x_pos_index = 1;
     private int y_pos_index = 1;
@@ -90,7 +89,7 @@ public class MLOutputController : MonoBehaviour
     private void processOutputsForGame()
     {
         string horizontal_position = checkHorizontal();
-        //string vertical_position = checkVertical();
+        string vertical_position = checkVertical();
         
         if ((horizontal_position=="Left" && x_pos_index!=0) || (horizontal_position=="Center" && x_pos_index==2))
         {
@@ -104,7 +103,7 @@ public class MLOutputController : MonoBehaviour
             characterInputController.ChangeLane(1);
             x_pos_index += 1;
         }
-        /*
+        
         if (vertical_position == "Jumping" && y_pos_index == 1)
         {
             //UP MOVE
@@ -121,7 +120,7 @@ public class MLOutputController : MonoBehaviour
         else if (vertical_position == "Standing" && y_pos_index != 1)
         {
             y_pos_index = 1;
-        }*/
+        }
     }
 
     public int checkAnswer()
@@ -138,9 +137,9 @@ public class MLOutputController : MonoBehaviour
         var centreX_of_gravity = (currentTarget[11].X  + currentTarget[12].X  + currentTarget[23].X  + currentTarget[24].X )*width /4;
         string horizontal_position = "";
         
-        if (centreX_of_gravity <= width/3)
+        if (centreX_of_gravity <= width*1.1f/3)
             horizontal_position = "Left";
-        else if (centreX_of_gravity <= 2*width/3)
+        else if (centreX_of_gravity <= 2*width*0.9f/3)
             horizontal_position = "Center";
         else if (centreX_of_gravity <= width)
             horizontal_position = "Right";
@@ -151,15 +150,22 @@ public class MLOutputController : MonoBehaviour
     {
         if (currentTarget.Count < 4) return "";
         var centreY_of_gravity = (currentTarget[11].Y  + currentTarget[12].Y + currentTarget[23].Y  + currentTarget[24].Y )*height /4;
-        string vertical_position = "";
- 
-        if (centreY_of_gravity >= upperBound)
-            vertical_position = "Jumping";
-        else if (centreY_of_gravity <= lowerBound)
-            vertical_position = "Crouching";
-        else
-            vertical_position = "Standing";
-
+        var curr_lowerboddy_pos = (currentTarget[23].Y  + currentTarget[24].Y )*height /2;
+        var curr_upperboddy_pos = (currentTarget[11].Y  + currentTarget[12].Y )*height /2;
+        string vertical_position = "Standing";
+        //if(!(2 * curr_upperboddy_pos - prev_upperboddy_pos >= prev_lowerboddy_pos))  
+            if (prev_lowerboddy_pos*1.1f >= centreY_of_gravity)
+                vertical_position = "Crouching";
+        //else if(!(2 * curr_lowerboddy_pos - prev_lowerboddy_pos >= prev_upperboddy_pos))
+            else if (centreY_of_gravity >= prev_upperboddy_pos*0.75f)
+                vertical_position = "Jumping";
+            if (inference_counter>4)
+            {
+                prev_lowerboddy_pos = curr_lowerboddy_pos;
+                prev_upperboddy_pos = curr_upperboddy_pos;
+                inference_counter = 0;
+            }
+        
         return vertical_position;
     }
 
@@ -203,9 +209,8 @@ public class MLOutputController : MonoBehaviour
     {
         if (isStarting) 
             return;
-        
-        lowerBound = (currentTarget[23].Y+currentTarget[24].Y)*height*1.4f/2;
-        upperBound = (currentTarget[11].Y+currentTarget[12].Y)*height*0.6f/2;
+        prev_lowerboddy_pos = (currentTarget[23].Y  + currentTarget[24].Y )*height /2;
+        prev_upperboddy_pos = (currentTarget[11].Y  + currentTarget[12].Y)*height /2;
         correctPoseSign.SetActive(true);
         loadoutState.Invoke("StartGamePlay", 1.5f);
     }
