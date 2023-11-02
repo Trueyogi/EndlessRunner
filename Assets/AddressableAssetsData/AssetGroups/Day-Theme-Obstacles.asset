@@ -33,6 +33,14 @@ MonoBehaviour:
     m_Address: ObstacleRoadworksCone
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: b19a0bd8ede69fe4683dff84150a047b
+    m_Address: ObstacleHighBarrier
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d68ac797bf384f84bbca159dc2a6e4d7
+    m_Address: ObstacleLowBarrier
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 735e874f947d0e143a6b4e83f8a7283a, type: 2}
   m_SchemaSet:

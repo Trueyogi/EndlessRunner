@@ -405,6 +405,18 @@ MonoBehaviour:
     m_Address: Assets/Textures/BinAlbedo.tif
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: bbccc718107e16e4d9e070aa75df5218
+    m_Address: Assets/Animation/ObstacleRoadWorksBarrierHigh_Death.fbx
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9b635fbb467c2e84f9b8b0d2cc7a19fd
+    m_Address: Assets/Animation/ObstacleRoadWorksBarrierLow_Death.fbx
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3bbb4725b7e107143a0d7eeaa52be855
+    m_Address: Assets/Animation/ObstacleRoadWorksBarrier_Death.fbx
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 735e874f947d0e143a6b4e83f8a7283a, type: 2}
   m_SchemaSet:

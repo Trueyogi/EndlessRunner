@@ -33,6 +33,14 @@ MonoBehaviour:
     m_Address: ObstacleBin
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 61bb777a99260874f88fe72c93801af9
+    m_Address: ObstacleHighBarrier
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a9b51c81c20d09b49a078e5821bb9d58
+    m_Address: ObstacleLowBarrier
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 735e874f947d0e143a6b4e83f8a7283a, type: 2}
   m_SchemaSet:
