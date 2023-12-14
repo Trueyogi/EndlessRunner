@@ -20,7 +20,7 @@ public class CharacterInputController : MonoBehaviour
 	public GameObject blobShadow;
 	public float laneChangeSpeed = 1.0f;
 
-	public int maxLife = 3;
+	public int maxLife = 6;
 
 	public Consumable inventory;
 

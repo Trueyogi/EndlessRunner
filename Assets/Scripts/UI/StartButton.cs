@@ -11,6 +11,8 @@ using UnityEngine.Purchasing;
 
 public class StartButton : MonoBehaviour
 {
+    public GameObject onboardScreen;
+    public GameObject videoPlayer;
     public void StartGame()
     {
         if (PlayerData.instance.ftueLevel == 0)
@@ -26,5 +28,12 @@ public class StartButton : MonoBehaviour
         var module = StandardPurchasingModule.Instance();
 #endif
         SceneManager.LoadScene("main");
+    }
+
+    public void ShowOnboarding()
+    {
+        gameObject.SetActive(false);
+        videoPlayer.SetActive(true);
+        onboardScreen.SetActive(true);
     }
 }

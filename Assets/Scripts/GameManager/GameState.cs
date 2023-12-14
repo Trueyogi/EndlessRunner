@@ -71,7 +71,7 @@ public class GameState : AState
     protected bool m_AdsInitialised = false;
     protected bool m_GameoverSelectionDone = false;
 
-    protected int k_MaxLives = 3;
+    protected int k_MaxLives = 6;
 
     protected bool m_CountObstacles = true;
     protected int m_CurrentSegmentObstacleIndex = 0;
@@ -90,7 +90,7 @@ public class GameState : AState
         {
             m_LifeHearts[i] = lifeRectTransform.GetChild(i).GetComponent<Image>();
         }
-
+        
         if (MusicPlayer.instance.GetStem(0) != gameTheme)
         {
             MusicPlayer.instance.SetStem(0, gameTheme);
@@ -309,7 +309,7 @@ public class GameState : AState
         coinText.text = trackManager.characterController.coins.ToString();
         premiumText.text = trackManager.characterController.premium.ToString();
 
-		for (int i = 0; i < 3; ++i)
+		for (int i = 0; i < 6; ++i)
 		{
 
 			if(trackManager.characterController.currentLife > i)

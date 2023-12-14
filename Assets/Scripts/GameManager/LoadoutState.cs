@@ -47,7 +47,7 @@ public class LoadoutState : AState
 	public Leaderboard leaderboard;
     public MissionUI missionPopup;
 	public Button runButton;
-
+	public Button jumpSlideButton;
 	public MeshFilter skyMeshFilter;
     public MeshFilter UIGroundFilter;
 
@@ -64,6 +64,7 @@ public class LoadoutState : AState
     protected int m_UsedAccessory = -1;
 	protected int m_UsedPowerupIndex;
     protected bool m_IsLoadingCharacter;
+    private bool isJumpSlideOpen = true;
 
 	protected Modifier m_CurrentModifier = new Modifier();
 
@@ -75,7 +76,6 @@ public class LoadoutState : AState
 
     public override void Enter(AState from)
     {
-
         inventoryCanvas.gameObject.SetActive(true);
         missionPopup.gameObject.SetActive(false);
 
@@ -137,6 +137,10 @@ public class LoadoutState : AState
             }
         }
     }
+    private void Awake()
+    {
+	    instance = this;
+    }
     private void OnEnable()
     {
 	    if(AISyncPanel.activeSelf)
@@ -182,6 +186,24 @@ public class LoadoutState : AState
 		themeSelect.gameObject.SetActive(PlayerData.instance.themes.Count > 1);
     }
 
+    private void SetJumpSlideOpen()
+    {
+	    if (isJumpSlideOpen)
+	    {
+		    jumpSlideButton.GetComponentInChildren<Text>().text = "OFF";
+		    isJumpSlideOpen = false;
+	    }
+	    else
+	    {
+		    jumpSlideButton.GetComponentInChildren<Text>().text = "ON";
+		    isJumpSlideOpen = true;
+	    }
+    }
+
+    public bool getJumpSlideOpen()
+    {
+	    return isJumpSlideOpen;
+    }
 	public void GoToStore()
 	{
         UnityEngine.SceneManagement.SceneManager.LoadScene(k_ShopSceneName, UnityEngine.SceneManagement.LoadSceneMode.Additive);

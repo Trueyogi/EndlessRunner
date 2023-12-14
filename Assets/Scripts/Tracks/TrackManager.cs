@@ -40,8 +40,8 @@ public class TrackManager : MonoBehaviour
 
     [Header("Character & Movements")]
     public CharacterInputController characterController;
-    public float minSpeed = 2.0f;
-    public float maxSpeed = 3.0f;
+    public float minSpeed = 5f;
+    public float maxSpeed = 15f;
     public int speedStep = 1;
     public float laneOffset = 1.0f;
 
@@ -127,7 +127,7 @@ public class TrackManager : MonoBehaviour
     protected const int k_StartingCoinPoolSize = 256;
     protected const int k_DesiredSegmentCount = 10;
     protected const float k_SegmentRemovalDistance = -30f;
-    protected const float k_Acceleration = 0.1f;
+    protected const float k_Acceleration = 0.01f;
     
     protected void Awake()
     {
@@ -497,7 +497,7 @@ public class TrackManager : MonoBehaviour
 
         int segmentUse = Random.Range(0, m_CurrentThemeData.zones[m_CurrentZone].prefabList.Length);
         if (segmentUse == m_PreviousSegment) segmentUse = (segmentUse + 1) % m_CurrentThemeData.zones[m_CurrentZone].prefabList.Length;
-
+        
         AsyncOperationHandle segmentToUseOp = m_CurrentThemeData.zones[m_CurrentZone].prefabList[segmentUse].InstantiateAsync(_offScreenSpawnPos, Quaternion.identity);
         yield return segmentToUseOp;
         if (segmentToUseOp.Result == null || !(segmentToUseOp.Result is GameObject))
@@ -527,12 +527,13 @@ public class TrackManager : MonoBehaviour
 
 
         Vector3 pos = currentExitPoint + (newSegment.transform.position - entryPoint);
+        
         newSegment.transform.position = pos;
         newSegment.manager = this;
 
         newSegment.transform.localScale = new Vector3((Random.value > 0.5f ? -1 : 1), 1, 1);
         newSegment.objectRoot.localScale = new Vector3(1.0f / newSegment.transform.localScale.x, 1, 1);
-
+        
         if (m_SafeSegementLeft <= 0)
         {
             SpawnObstacle(newSegment);
@@ -550,9 +551,29 @@ public class TrackManager : MonoBehaviour
     {
         if (segment.possibleObstacles.Length != 0)
         {
-            for (int i = 0; i < segment.obstaclePositions.Length; ++i)
+            for (int i = 0; i < 1 /*segment.obstaclePositions.Length*/; ++i)
             {
-                AssetReference assetRef = segment.possibleObstacles[Random.Range(0, segment.possibleObstacles.Length)];
+                AssetReference assetRef;
+                if(LoadoutState.instance.getJumpSlideOpen())
+                    assetRef = segment.possibleObstacles[Random.Range(0, segment.possibleObstacles.Length)];
+                else
+                {
+                    //#if UNITY_ANDROID || UNITY_IOS
+                        do
+                        { 
+                            assetRef = segment.possibleObstacles[Random.Range(0, segment.possibleObstacles.Length)];
+                            Debug.Log("ASPPPPPPPPPPPPPPPPP " + segment.possibleObstacles.Length.ToString());
+                            Debug.Log("ASPPPPPPPPPPPPPPPPP " + assetRef.Asset.name);
+                            
+                        } while (assetRef.Asset.name.Contains("Low") || assetRef.Asset.name.Contains("High"));
+                    //#endif
+                    /*
+                        do
+                        { 
+                            assetRef = segment.possibleObstacles[Random.Range(0, segment.possibleObstacles.Length)];
+                        } while (assetRef.editorAsset.name.Contains("Low") || assetRef.editorAsset.name.Contains("High"));*/
+                }
+                
                 StartCoroutine(SpawnFromAssetReference(assetRef, segment, i));
             }
         }
@@ -562,8 +583,9 @@ public class TrackManager : MonoBehaviour
 
     private IEnumerator SpawnFromAssetReference(AssetReference reference, TrackSegment segment, int posIndex)
     {
+        
         AsyncOperationHandle op = Addressables.LoadAssetAsync<GameObject>(reference);
-        yield return op; 
+        yield return op;
         GameObject obj = op.Result as GameObject;
         if (obj != null)
         {

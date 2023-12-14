@@ -36,7 +36,6 @@ public class TestManager : MonoBehaviour
     {
         countDownTime = 10f;
         int randomQuestionIndex = -1;
-        Debug.Log(questionList.Questions.Count);
         randomQuestionIndex = Random.Range(0, questionList.Questions.Count);
         currentQuestionIndex = randomQuestionIndex;
         Question question = questionList.Questions[currentQuestionIndex];
