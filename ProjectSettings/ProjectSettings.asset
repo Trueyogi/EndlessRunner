@@ -256,8 +256,8 @@ PlayerSettings:
   AndroidTargetDevices: 0
   AndroidSplashScreenScale: 2
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: '{inproject}: meowmotion.keystore'
-  AndroidKeyaliasName: meowmotion
+  AndroidKeystoreName: '{dedicated}: asp.keystore'
+  AndroidKeyaliasName: asp
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0
   AndroidIsGame: 1

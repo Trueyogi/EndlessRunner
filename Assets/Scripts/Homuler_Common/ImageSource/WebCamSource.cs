@@ -208,7 +208,7 @@ namespace Mediapipe.Unity
             AndroidRuntimePermissions.Permission result = AndroidRuntimePermissions.RequestPermission("android.permission.CAMERA");
             if (result == AndroidRuntimePermissions.Permission.Granted)
             {
-                /*availableSources = WebCamTexture.devices;
+                availableSources = WebCamTexture.devices;
                 if (availableSources != null && availableSources.Length > 0)
                 {
                     foreach (var camDevice in availableSources)
@@ -218,7 +218,7 @@ namespace Mediapipe.Unity
                             webCamDevice = camDevice;
                         }
                     }
-                }*/
+                }
                 
                 webCamDevice = availableSources[0];
                 _IsPermitted = true;

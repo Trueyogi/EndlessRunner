@@ -115,6 +115,7 @@ public class TrackManager : MonoBehaviour
     protected bool m_Rerun;     // This lets us know if we are entering a game over (ads) state or starting a new game (see GameState)
 
     protected bool m_IsTutorial; //Tutorial is a special run that don't chance section until the tutorial step is "validated" by the TutorialState.
+    protected bool isJumpSlideOpen;
     
     Vector3 m_CameraOriginalPos = Vector3.zero;
     
@@ -177,6 +178,7 @@ public class TrackManager : MonoBehaviour
         if (!m_Rerun)
         {
             firstObstacle = true;
+            isJumpSlideOpen = LoadoutState.instance.getJumpSlideOpen();
             m_CameraOriginalPos = Camera.main.transform.position;
             
             if (m_TrackSeed != -1)
@@ -553,27 +555,7 @@ public class TrackManager : MonoBehaviour
         {
             for (int i = 0; i < 1 /*segment.obstaclePositions.Length*/; ++i)
             {
-                AssetReference assetRef;
-                if(LoadoutState.instance.getJumpSlideOpen())
-                    assetRef = segment.possibleObstacles[Random.Range(0, segment.possibleObstacles.Length)];
-                else
-                {
-                    //#if UNITY_ANDROID || UNITY_IOS
-                        do
-                        { 
-                            assetRef = segment.possibleObstacles[Random.Range(0, segment.possibleObstacles.Length)];
-                            Debug.Log("ASPPPPPPPPPPPPPPPPP " + segment.possibleObstacles.Length.ToString());
-                            Debug.Log("ASPPPPPPPPPPPPPPPPP " + assetRef.Asset.name);
-                            
-                        } while (assetRef.Asset.name.Contains("Low") || assetRef.Asset.name.Contains("High"));
-                    //#endif
-                    /*
-                        do
-                        { 
-                            assetRef = segment.possibleObstacles[Random.Range(0, segment.possibleObstacles.Length)];
-                        } while (assetRef.editorAsset.name.Contains("Low") || assetRef.editorAsset.name.Contains("High"));*/
-                }
-                
+                AssetReference assetRef = segment.possibleObstacles[Random.Range(0, segment.possibleObstacles.Length)];
                 StartCoroutine(SpawnFromAssetReference(assetRef, segment, i));
             }
         }
@@ -583,7 +565,6 @@ public class TrackManager : MonoBehaviour
 
     private IEnumerator SpawnFromAssetReference(AssetReference reference, TrackSegment segment, int posIndex)
     {
-        
         AsyncOperationHandle op = Addressables.LoadAssetAsync<GameObject>(reference);
         yield return op;
         GameObject obj = op.Result as GameObject;
@@ -591,7 +572,10 @@ public class TrackManager : MonoBehaviour
         {
             Obstacle obstacle = obj.GetComponent<Obstacle>();
             if (obstacle != null)
-                yield return obstacle.Spawn(segment, segment.obstaclePositions[posIndex]);
+                if (isJumpSlideOpen)
+                    yield return obstacle.Spawn(segment, segment.obstaclePositions[posIndex]);
+                else if(!(obstacle.name.Contains("Low") || obstacle.name.Contains("High")))
+                    yield return obstacle.Spawn(segment, segment.obstaclePositions[posIndex]);
         }
     }
 
